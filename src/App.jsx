@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from './Home.jsx'
 import ItemDetailPage from "./ItemDetailPage.jsx";
-import InputIncrease from './components/InputCreate.jsx';
+import InputCreate from './components/InputCreate.jsx';
 
 const App = () => {
   const [data, setData] = useState(null)
-  const urlApi = 'http://localhost:3000'
+  const urlApi = import.meta.env.VITE_APP_API_URL
 
 const fetchData = async () => {
   try {
@@ -21,7 +21,7 @@ const fetchData = async () => {
 
 useEffect(() => {
   fetchData()
-}, [])
+}, [data])
 
   return (
     <Router>
@@ -36,7 +36,7 @@ useEffect(() => {
         : 
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/create" element={<InputIncrease />} />
+            <Route path="/create" element={<InputCreate />} />
             {data.map(item => (
               <Route key={item._id} path={`/${item._id}`} element={<ItemDetailPage item={item}/>} />
             ))
